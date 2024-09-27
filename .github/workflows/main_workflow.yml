@@ -1,0 +1,82 @@
+name: cicd tp
+on: push
+jobs:
+#  build-vote:
+#    name: Build du result
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Récupération appli
+#        uses: actions/checkout@v4
+#      - name: cache npm
+#        uses: actions/cache@v4
+#        with:
+#          path: ~/.npm
+#          key: ${{ runner.os }}-node-package-${{ hashFiles('**/package-lock.json') }}
+#      - name: installation des dépendances
+#        run: npm i
+#      - name: build de l'application
+#        run: npm run build
+#      - name: Upload build
+#        if: ${{ success() && github.ref == 'refs/heads/main' }}
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: vue-project
+#          path: dist
+  build-result:
+    name: Build du result
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupération appli
+        uses: actions/checkout@v4
+      - name: cache npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-package-${{ hashFiles('**/package-lock.json') }}
+      - name: installation des dépendances
+        run: npm i
+      - name: build de l'application
+        run: npm run build
+      - name: Upload build
+        if: ${{ success() && github.ref == 'refs/heads/main' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: result-nodejs
+          path: dist
+#  download:
+#    if: ${{ github.ref == 'refs/heads/main' }}
+#    runs-on: ubuntu-latest
+#    needs:
+#      - build-result
+#    steps:
+#      - name: Récupérer l'artéfact
+#        if: ${{ success() && github.ref == 'refs/heads/main' }}
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: vue-project
+#
+#  docker:
+#    runs-on: ubuntu-latest
+#    needs: download
+#    steps:
+#      - name: login dockerhub
+#        uses: docker/login-action@v3
+#        with:
+#          username: ${{ secrets.DOCKER_USERNAME }}
+#          password: ${{ secrets.DOCKER_PASSWORD }}
+#      - name: checkout code
+#        uses: actions/checkout@v4
+#
+#      - name: Build docker image
+#        run: docker build -t lestof/vote:latest .
+#      - name: Build docker image
+#        run: docker build -t lestof/result:latest .
+#      - name: Build docker image
+#        run: docker build -t lestof/worker:latest .
+#
+#      - name: push docker image
+#        run: docker push lestof/vote:latest
+#      - name: push docker image
+#        run: docker push lestof/result:latest
+#      - name: push docker image
+#        run: docker push lestof/worker:latest
