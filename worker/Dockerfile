@@ -6,7 +6,7 @@ COPY ./src/Worker/Worker.csproj ./
 
 RUN dotnet restore
 
-COPY src/Worker/ .
+COPY ./src/Worker/ .
 
 RUN dotnet publish -c Release -o /app
 
@@ -17,4 +17,4 @@ WORKDIR /worker/app
 
 COPY --from=build /app .
 
-ENTRYPOINT ["dotnet", "worker.dll"]
+ENTRYPOINT ["dotnet", "Worker.dll"]
